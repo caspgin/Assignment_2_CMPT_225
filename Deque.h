@@ -20,6 +20,8 @@ public:
 	Deque();
 	Deque(const Deque& copyFromMe);
 	~Deque();
+	Deque& operator=(const Deque& parameter);
+	bool operator== (const Deque& rhs)const;
 	void insertFront(T insertData);
 	void insertBack(T insertData);
 	T removeFront();
@@ -69,6 +71,39 @@ Deque<T>::~Deque()
 	tail = NULL;
 	delete head;
 	head = NULL;
+}
+
+template <class T>
+Deque& Deque<T>::operator=(const Deque& parameter)
+{
+	if(this->!empty())
+	{
+		this->~Deque();
+	}
+	this->Deque(parameter);
+	
+	return this;
+}
+
+template <class T>
+bool Deque<T>::operator==(const Deque& rhs) const
+{
+	bool equal = false;
+	if(rhs.size() == this->size())
+	{
+		equal = true;
+		Node<T>* rhsCursor = rhs.head;
+		Node<T>* thisCursor = head;
+		for(int i=0; rhsCursor!=NULL; i++)
+		{
+			if(rhsCursor->data != thisCursor->data)
+				equal =false;
+			rhsCursor=rhsCursor->back;
+			thisCursor=thisCursor->back;
+		}
+	}
+	
+	return equal;
 }
 
 template <class T>
